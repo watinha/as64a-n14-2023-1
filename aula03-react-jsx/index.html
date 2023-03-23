@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Introdução ao React.js com JSX</title>
+  </head>
+  <body>
+    <header>
+      <h1>Introdução ao React.js com JSX</h1>
+    </header>
+
+    <section></section>
+
+   	<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel" charset="utf-8">
+      let header = document.querySelector('header'),
+          section = document.querySelector('section'),
+          name = 'Willian',
+          itens = [];
+
+      function existem (arr) {
+        if (arr.length === 0)
+          return <div style={{ color: 'red' }}>Vazio</div>;
+        return <ul>
+          {arr.map((i) => <li>{i}</li>)}
+        </ul>;
+      }
+
+      setInterval(() => {
+        let html = <div>
+          <h1 className="hello">Hello world com JSX, {name}</h1>
+          <span>{(new Date()).toString()}</span>
+        </div>;
+        ReactDOM.render(html, header);
+      }, 3000);
+
+      ReactDOM.render(existem(itens), section);
+    </script>
+  </body>
+</html>
