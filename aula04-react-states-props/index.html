@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>React.js, jSX e características</title>
+    <style type="text/css" media="all">
+      body { padding-left: 50px; }
+      .amarela { background-color: yellow; }
+      .azul { background-color: blue; }
+    </style>
+  </head>
+  <body>
+    <h1>React.js, jSX e características</h1>
+
+    <section class="attributes">
+      <h2 class="amarela" style="color: green; font-weight: bold">Attributes</h2>
+
+      <div></div>
+    </section>
+
+    <section class="data">
+      <h2>Data</h2>
+      <div></div>
+    </section>
+
+    <section class="conditional">
+      <h2>Conditional</h2>
+      <input type="checkbox" />
+
+      <div></div>
+    </section>
+
+    <section class="lists">
+      <h2>Lists</h2>
+
+      <div></div>
+    </section>
+
+   	<script src="https://unpkg.com/react@18/umd/react.production.min.js"
+            crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+            crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+      // attributes
+      let attributes = document.querySelector('.attributes div');
+      console.log(document.querySelector('h2'));
+
+      ReactDOM.render(<p className="azul"
+                         style={{ color: 'red' }}>
+                         Class or classname</p>, attributes);
+
+      // data
+      let data = document.querySelector('.data div'),
+          content = [<span>abobrinha</span>, <span>pepino</span>];
+
+      ReactDOM.render(<p>
+        {content}
+      </p>, data);
+
+      // conditional rendering
+      let conditional = document.querySelector('.conditional div'),
+          checkbox = document.querySelector('input');
+
+      function render () {
+        if (checkbox.checked)
+          return <span style={{ backgroundColor: 'green'}}>É true...</span>;
+        return <span style={{ backgroundColor: 'red'}}>É false</span>
+      }
+
+      setInterval(() => {
+        ReactDOM.render(<p>
+          <div>
+            {render()}
+          </div>
+          <div>
+            {checkbox.checked ? 'É true com ternário' : 'É false com ternário'}
+          </div>
+          <div>
+            {checkbox.checked && 'É true com sobrecarga'}
+          </div>
+        </p>, conditional);
+      }, 2000);
+
+      // rendering lists
+      let lists = document.querySelector('.lists div'),
+          l = ' '.repeat(9).split(' ').map((i, j) => j + 1);
+
+      ReactDOM.render(<ul>
+        {l.map((item) => <li>Item {item}</li>)}
+      </ul>, lists);
+    </script>
+
+  </body>
+</html>

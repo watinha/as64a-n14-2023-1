@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>React.js, components, states e props</title>
+    <style type="text/css" media="all">
+      body { height: 14000px; }
+    </style>
+  </head>
+  <body>
+    <h1>React.js, components, states e props</h1>
+    <section class="states">
+      <h2>Eventos e states</h2>
+      <div></div>
+    </section>
+
+    <section class="props">
+      <h2>Props</h2>
+      <div></div>
+    </section>
+
+   	<script src="https://unpkg.com/react@18/umd/react.production.min.js"
+            crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+            crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      let states_root = document.querySelector('.states div');
+
+      function Button () {
+        let [count, setCount] = useState(0);
+
+        function incrementar() {
+          setCount((old) => old + 1);
+          setCount((old) => old + 1);
+          setCount((old) => old + 1);
+        }
+
+        return (<button onClick={() => { incrementar() }}>
+          Click me ({count} clicks até agora)!
+        </button>);
+      }
+
+      function Lista () {
+        let [list, setList] = useState([]);
+
+        function atualizar () {
+          setList(['abobrinha', ...list]);
+        }
+
+        return (<div>
+          <button onClick={() => {atualizar()}}>click</button>
+          <ul>
+            {list.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>);
+      }
+
+      function Input () {
+        let [value, setValue] = useState('vazio');
+
+        return (<div>
+          <input type="text"
+                 onChange={(ev) => setValue(ev.target.value)}
+                 value={value} />
+          <span>{value}</span>
+        </div>)
+      }
+
+      ReactDOM.render(<div>
+        <Button /><Button /><Button />
+        <Input />
+        <Lista />
+      </div>, states_root);
+
+      let props_root = document.querySelector('.props div');
+
+      function Exemplo (props) {
+        let { abobrinha, abacaxi, children, ...rest } = props;
+        console.log(props);
+
+        return (<div>
+          <h3 style={abacaxi}
+              {...rest}>Componente {abobrinha}</h3>
+          <ul>
+            {children}
+          </ul>
+        </div>);
+      }
+
+      ReactDOM.render(<div>
+        <Exemplo abobrinha="legal"
+                 abacaxi={{ color: 'green', 'fontWeight': 'bold' }} />
+        <Exemplo abobrinha="Supimpa"
+                 abacaxi={{ color: 'red', 'textDecoration': 'underline' }} />
+        <Exemplo role="menu" aria-label="Menu de coisas para comer">
+          <li>Abobrinha</li>
+          <li>Pepino</li>
+        </Exemplo>
+      </div>, props_root);
+
+    </script>
+  </body>
+</html>
