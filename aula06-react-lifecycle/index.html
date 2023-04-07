@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>React.js, ciclo de vida e useEffect</title>
+  </head>
+  <body>
+    <h1>React.js, ciclo de vida e useEffect</h1>
+    <section></section>
+
+   	<script src="https://unpkg.com/react@18/umd/react.production.min.js"
+            crossorigin></script>
+		<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+            crossorigin></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel" charset="utf-8">
+      const { useState, useEffect } = React;
+
+      let App = () => {
+        let [text, setText] = useState(''),
+            [visible, setVisible] = useState(false),
+            [products, setProducts] = useState([]);
+        console.log('App foi renderizado...');
+
+        useEffect(() => {
+          (async () => {
+            let resp = await (
+              fetch('https://dummyjson.com/products').then(r => r.json()));
+            setProducts(resp['products']);
+          })();
+        }, [visible]);
+
+        return <div>
+          <input type="text"
+                 onChange={(ev) => setText(ev.target.value)}
+                 value={text} />
+          <div>{text}</div>
+          <button onClick={() => setVisible((v) => !v)}>
+            {visible ? 'desmontar' : 'montar'}
+          </button>
+
+          <ul>
+            {products.map(product => <li>{product.title}</li>)}
+          </ul>
+
+          {visible && <Counter />}
+        </div>;
+      };
+
+      let Counter = () => {
+        let [count, setCount] = useState(0);
+
+        console.log('Counter foi renderizado...');
+
+        useEffect(() => {
+          console.log('Counter for montado...');
+
+          let timer_id = setInterval(() => {
+            setCount((v) => v + 1);
+          }, 3000);
+
+          return () => {
+            console.log('Counter for demontado...');
+            clearInterval(timer_id);
+          }
+        }, []);
+
+        return <div>
+          <div>{count}</div>
+        </div>;
+      };
+
+      let root = document.querySelector('section');
+      ReactDOM.render(<App />, root);
+    </script>
+  </body>
+</html>
